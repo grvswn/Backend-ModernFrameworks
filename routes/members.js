@@ -6,13 +6,18 @@ const { createMemberForm } = require('../forms');
 const dataLayer = require('../dal/members');
 
 router.get('/', async(req,res)=>{
-    res.send(await dataLayer.getAllMembers())
+    const allMembers = await dataLayer.getAllMembers();
+    res.json({
+        'members': allMembers.toJSON()
+    });
 });
 
 router.get('/:member_id', async(req,res)=>{
     const memberId = req.params.member_id;
     const member = await dataLayer.getMemberByID(memberId);
-    res.send(member);
+    res.json({
+        'member': member.toJSON()
+    });
 });
 
 router.post('/', async (req, res) => {
@@ -25,7 +30,9 @@ router.post('/', async (req, res) => {
             const member = new Member(memberData);
             await member.save();
     
-            res.send(member);
+            res.json({
+                'member': member.toJSON()
+            });
         },
         'error': async (form) => {
            let errors = {};
@@ -52,7 +59,9 @@ router.put('/:member_id', async(req,res)=>{
             member.set(memberData);
             await member.save();
 
-            res.send(member);
+            res.json({
+                'member': member.toJSON()
+            });
         },
         'error': async (form) => {
             let errors = {};
@@ -72,7 +81,9 @@ router.delete('/:member_id', async(req,res)=>{
 
     await member.destroy();
 
-    res.send(member);
+    res.json({
+        'member': member.toJSON()
+    });
 });
 
 module.exports = router;
