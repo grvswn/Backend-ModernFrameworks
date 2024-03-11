@@ -1,6 +1,6 @@
 const express = require("express");
-
 require("dotenv").config();
+const cors = require('cors');
 
 let app = express();
 
@@ -12,8 +12,12 @@ app.use(
   })
 );
 
+app.use(cors());
+
+const memberRoutes = require('./routes/members')
+
 async function main() {
-  
+  app.use('/members', express.json(), memberRoutes);
 };
 
 main();
@@ -21,4 +25,3 @@ main();
 app.listen(3000, () => {
   console.log("Server has started");
 });
-
