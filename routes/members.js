@@ -4,6 +4,7 @@ const router = express.Router();
 const { Member } = require('../models');
 const { createMemberForm } = require('../forms');
 const dataLayer = require('../dal/members');
+const serviceLayer = require('../services/members');
 
 router.get('/', async(req,res)=>{
     const allMembers = await dataLayer.getAllMembers();
